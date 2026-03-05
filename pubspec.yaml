@@ -75,7 +75,7 @@ flutter_native_splash:
     image_dark: "assets/android/app-icon-foreground.png"
 
 flavorizr:
-  ide: "idea"
+  ide: "vscode"
   app:
     android:
       flavorDimensions: "flavor-type"
