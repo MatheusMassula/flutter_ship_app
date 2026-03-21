@@ -4,9 +4,10 @@ import 'dart:developer';
 import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 
 class LoggerNavigatorObserver extends NavigatorObserver {
+  AnalyticsFacade _analytics;
   static const _name = 'Navigation';
 
-  LoggerNavigatorObserver(AnalyticsFacade analytics);
+  LoggerNavigatorObserver(AnalyticsFacade analytics) : _analytics = analytics;
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
@@ -27,7 +28,7 @@ class LoggerNavigatorObserver extends NavigatorObserver {
 
   void _logNavigation(String? routeName, String action) {
     if (routeName != null) {
-      log("Screen $action: $routeName", name: _name);
+      _analytics.trackScreenView(routeName, action);
     } else {
       log('Route name is missing', name: _name);
     }
