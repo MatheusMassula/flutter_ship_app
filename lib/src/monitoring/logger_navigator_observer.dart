@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
 
 class LoggerNavigatorObserver extends NavigatorObserver {
-  AnalyticsFacade _analytics;
+  final AnalyticsFacade _analytics;
   static const _name = 'Navigation';
 
   LoggerNavigatorObserver(AnalyticsFacade analytics) : _analytics = analytics;

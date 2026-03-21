@@ -45,6 +45,9 @@ class LoggerAnalyticsClient implements AnalyticsClient {
 
   @override
   Future<void> trackScreenView(String routeName, String action) async {
-    log('trackScreenView(name: $routeName, action: $action)', name: _name);
+    log(
+      'trackScreenView($routeName, $action)',
+      name: 'Navigation',
+    );
   }
 }
