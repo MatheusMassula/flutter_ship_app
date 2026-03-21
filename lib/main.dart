@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:feedback_sentry/feedback_sentry.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +11,8 @@ import 'package:flutter_ship_app/env/flavor.dart';
 import 'package:flutter_ship_app/src/app_startup.dart';
 import 'package:flutter_ship_app/src/domain/app.dart';
 import 'package:flutter_ship_app/src/domain/epic.dart';
+import 'package:flutter_ship_app/src/monitoring/analytics_facade.dart';
+import 'package:flutter_ship_app/src/monitoring/logger_navigator_observer.dart';
 import 'package:flutter_ship_app/src/presentation/create_edit_app_screen.dart';
 import 'package:flutter_ship_app/src/presentation/epics_checklist_screen.dart';
 import 'package:flutter_ship_app/src/presentation/settings_screen.dart';
@@ -53,6 +57,9 @@ Future<void> runMainApp() async {
   // * Preload SharedPreferences before calling runApp, as the AppStartupWidget
   // * depends on it in order to load the themeMode
   await container.read(sharedPreferencesProvider.future);
+  // * Setup analytics
+  final analytics = container.read(analyticsFacadeProvider);
+  unawaited(analytics.trackAppOpened());
   // Preload any other FutureProviders what will be used with requireValue later
   await container.read(packageInfoProvider.future);
   runApp(
@@ -83,6 +90,7 @@ class MainApp extends ConsumerWidget {
       },
       navigatorObservers: [
         SentryNavigatorObserver(),
+        LoggerNavigatorObserver(ref.read(analyticsFacadeProvider)),
       ],
       onGenerateRoute: (settings) {
         // * This app uses named routes. For more info, read:

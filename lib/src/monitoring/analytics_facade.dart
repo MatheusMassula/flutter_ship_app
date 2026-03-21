@@ -13,41 +13,52 @@ class AnalyticsFacade implements AnalyticsClient {
 
   @override
   Future<void> trackAppOpened() => _dispatch(
-        (c) => c.trackAppOpened(),
-      );
+    (c) => c.trackAppOpened(),
+  );
 
   @override
   Future<void> trackNewAppHome() => _dispatch(
-        (c) => c.trackNewAppHome(),
-      );
+    (c) => c.trackNewAppHome(),
+  );
 
   @override
   Future<void> trackNewAppOnboarding() => _dispatch(
-        (c) => c.trackNewAppOnboarding(),
-      );
+    (c) => c.trackNewAppOnboarding(),
+  );
 
   @override
   Future<void> trackAppCreated() => _dispatch(
-        (c) => c.trackAppCreated(),
-      );
+    (c) => c.trackAppCreated(),
+  );
 
   @override
   Future<void> trackAppUpdated() => _dispatch(
-        (c) => c.trackAppUpdated(),
-      );
+    (c) => c.trackAppUpdated(),
+  );
 
   @override
   Future<void> trackAppDeleted() => _dispatch(
-        (c) => c.trackAppDeleted(),
-      );
+    (c) => c.trackAppDeleted(),
+  );
 
   @override
   Future<void> trackTaskCompleted(int completedCount) => _dispatch(
-        (c) => c.trackTaskCompleted(completedCount),
+    (c) => c.trackTaskCompleted(completedCount),
+  );
+
+  @override
+  Future<void> trackScreenView(String routeName, String action) async {
+    // * Only 'push' and 'replace' actions count as screen views (but not 'pop')
+    if (action != 'pop') {
+      return _dispatch(
+        (c) => c.trackScreenView(routeName, action),
       );
+    }
+  }
 
   Future<void> _dispatch(
-      Future<void> Function(AnalyticsClient client) work) async {
+    Future<void> Function(AnalyticsClient client) work,
+  ) async {
     for (var client in clients) {
       await work(client);
     }

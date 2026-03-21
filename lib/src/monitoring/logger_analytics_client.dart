@@ -42,4 +42,9 @@ class LoggerAnalyticsClient implements AnalyticsClient {
   Future<void> trackTaskCompleted(int completedCount) async {
     log('trackTaskCompleted(completedCount: $completedCount)', name: _name);
   }
+
+  @override
+  Future<void> trackScreenView(String routeName, String action) async {
+    log('trackScreenView(name: $routeName, action: $action)', name: _name);
+  }
 }
